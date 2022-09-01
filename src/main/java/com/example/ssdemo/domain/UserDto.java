@@ -12,8 +12,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_uer")
-public class User implements Serializable {
+@TableName("sys_user")
+public class UserDto implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     private String userName;
