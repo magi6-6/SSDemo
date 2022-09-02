@@ -41,7 +41,7 @@ public class LoginServiceImpl implements LoginService {
         }
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         String jwt = JwtUtil.createJWT(loginUser.getUserDto().getId().toString());
-        redisTemplate.opsForValue().set("login:" + jwt, loginUser);
+        redisTemplate.opsForValue().set("login:" + loginUser.getUserDto().getId(), loginUser);
         HashMap<String, String> map = new HashMap<>();
         map.put("token", jwt);
         return ResponseResult.success(map,"登陆成功");
