@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -31,7 +32,7 @@ public class LoginServiceImpl implements LoginService {
     private AuthenticationManager authenticationManager;
 
     @Override
-    public ResponseResult loign(UserDto userDto) {
+    public ResponseResult login(UserDto userDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDto.getUserName(), userDto.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
@@ -41,6 +42,8 @@ public class LoginServiceImpl implements LoginService {
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         String jwt = JwtUtil.createJWT(loginUser.getUserDto().getId().toString());
         redisTemplate.opsForValue().set("login:" + jwt, loginUser);
-        return ResponseResult.success("登陆成功");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", jwt);
+        return ResponseResult.success(map,"登陆成功");
     }
 }

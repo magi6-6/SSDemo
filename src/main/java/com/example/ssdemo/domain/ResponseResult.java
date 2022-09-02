@@ -54,6 +54,12 @@ public class ResponseResult<T> implements Serializable {
         this.data = data;
     }
 
+    public ResponseResult(T data, String msg) {
+        this.code = ResultCode.SUCCESS;
+        this.msg = msg;
+        this.data = data;
+    }
+
     public ResponseResult(int code,String msg) {
         this.code = code;
         this.msg = msg;
@@ -76,6 +82,10 @@ public class ResponseResult<T> implements Serializable {
      **/
     public static <T> ResponseResult<T> success(T data) {
         return new ResponseResult<T>(data);
+    }
+
+    public static <T> ResponseResult<T> success(T data,String msg) {
+        return new ResponseResult<T>(data,msg);
     }
 
     /**
