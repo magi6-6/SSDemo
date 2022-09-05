@@ -25,7 +25,8 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
     static {
         ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
         //如果遇到反序列化autoType is not support错误，请添加并修改一下包名到bean文件路径
-        // ParserConfig.getGlobalInstance().addAccept("com.xxxxx.xxx");
+        ParserConfig.getGlobalInstance().addAccept("com.example.ssdemo.domain.LoginUser");
+        ParserConfig.getGlobalInstance().addAccept("org.springframework.security.core.authority.SimpleGrantedAuthority");
     }
     public FastJson2JsonRedisSerializer(Class<T> clazz) {
         super();

@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -25,6 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDto user = userMapper.selectOne(new QueryWrapper<UserDto>().eq("user_name", username));
-        return new LoginUser(user);
+        List<String> permissions = Arrays.asList("admin","test");
+        return LoginUser.builder().userDto(user).permissions(permissions).build();
     }
 }

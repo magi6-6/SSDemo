@@ -11,4 +11,5 @@ import com.example.ssdemo.domain.UserDto;
  */
 public interface LoginService {
     ResponseResult login(UserDto userDto);
+    ResponseResult logout();
 }

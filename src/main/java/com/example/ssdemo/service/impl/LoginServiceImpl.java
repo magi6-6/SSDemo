@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,5 +46,14 @@ public class LoginServiceImpl implements LoginService {
         HashMap<String, String> map = new HashMap<>();
         map.put("token", jwt);
         return ResponseResult.success(map,"登陆成功");
+    }
+
+    @Override
+    public ResponseResult logout() {
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
+                SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        redisTemplate.delete("login:" + loginUser.getUserDto().getId());
+        return ResponseResult.success(loginUser,"注销成功");
     }
 }
