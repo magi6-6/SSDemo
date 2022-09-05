@@ -28,6 +28,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDto user = userMapper.selectOne(new QueryWrapper<UserDto>().eq("user_name", username));
+        if (Objects.isNull(user)) {
+            throw new RuntimeException("用户名不存在");
+        }
         List<String> permissions = Arrays.asList("admin","test");
         return LoginUser.builder().userDto(user).permissions(permissions).build();
     }
